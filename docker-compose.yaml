@@ -1,0 +1,23 @@
+name : test_task
+
+
+services:
+  postgres:
+    container_name: postgres_db
+    restart: on_fail
+    image: postgres
+    ports:
+      - "${POSTGRES_PORT}:5432"
+    networks:
+      - test_task
+    env_file:
+      - .env
+
+
+
+
+networks:
+  test_task:
+    driver: bridge
+
+
