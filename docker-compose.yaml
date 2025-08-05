@@ -1,3 +1,4 @@
+name: test_task
 
 services:
   postgres:
