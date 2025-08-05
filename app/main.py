@@ -1,6 +1,7 @@
 import asyncio
 import logging
 import sys
+import uuid
 from infrastructure.postgres.models import User
 from domain.database.repositories.user_repository import UserRepositoryInterface
 from infrastructure.postgres.repositories.user_repository import UserRepository
@@ -26,6 +27,15 @@ async def get_users(logger:logging.Logger,user_repository:UserRepositoryInterfac
         logger.error(f"Can not get user due err!")
         logger.error(f"Get err {str(e)}")
         sys.exit()
+
+async def add_user(logger:logging.Logger,user_repository:UserRepositoryInterface)->None:
+    user = User(name=str(uuid.uuid4()) , money=1000.39)
+    logger.info("Starting add user to db...")
+    try:
+        await user_repository.add_user(user)
+        logger.info("User succesfully added!")
+    except Exception as e :
+        logger.error(f"Can not add user to db due {str(e)}")
 
 
 async def start_connection(logger:logging.Logger,database_url:str)->DatabaseConnector:
@@ -53,6 +63,8 @@ async def main(database_url:str):
     await migrator.create_table(User.__tablename__)
     async with connector.get_session() as session:
         user_repo = UserRepository(session)
+        await get_users(logger , user_repo)
+        await add_user(logger , user_repo)
         await get_users(logger , user_repo)
     await connector.disconnect()
     logger.info("Close connection!")

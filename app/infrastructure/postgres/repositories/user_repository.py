@@ -15,7 +15,7 @@ class UserRepository(UserRepositoryInterface):
 
 
             try:
-                await  self.__session.execute(insert(User).values(id=user.id, name=user.name, money=user.money))
+                await  self.__session.execute(insert(User).values( name=user.name, money=user.money))
                 await  self.__session.commit()
             except IntegrityError as e:
                 await  self.__session.rollback()
