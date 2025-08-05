@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from app.infrastructure.postgres.models import User
+from infrastructure.postgres.models import User
 
 
 class UserRepositoryInterface(ABC):

@@ -18,3 +18,5 @@ class User(Base):
     name = Column(String(256), index=True, unique=True)
     # Для простоты примера де нормализуем таблицу
     money = Column(Float(precision=2))
+
+
