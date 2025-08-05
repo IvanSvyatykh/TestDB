@@ -21,7 +21,7 @@ async def get_users(logger:logging.Logger,user_repository:UserRepositoryInterfac
     logger.info("Getting users from db...")
     try:
         users = await user_repository.get_users()
-        logger.info(f"Get users : {users}")
+        logger.info(f"Get users: {[ (user.id , user.name , user.money) for user in users]}")
     except Exception as e :
         logger.error(f"Can not get user due err!")
         logger.error(f"Get err {str(e)}")
@@ -54,6 +54,8 @@ async def main(database_url:str):
     async with connector.get_session() as session:
         user_repo = UserRepository(session)
         await get_users(logger , user_repo)
+    await connector.disconnect()
+    logger.info("Close connection!")
 
     
 if __name__ == '__main__':
