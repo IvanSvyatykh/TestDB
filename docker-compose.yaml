@@ -1,4 +1,5 @@
-name: test_task
+version: "3"
+
 
 services:
   postgres:

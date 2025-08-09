@@ -2,14 +2,14 @@ import asyncio
 import logging
 import sys
 import uuid
-from infrastructure.postgres.models import User
+from infrastructure.sqlalchemy_orm_postgres.models import User
 from domain.database.repositories.user_repository import UserRepositoryInterface
-from infrastructure.postgres.repositories.user_repository import UserRepository
-from infrastructure.postgres.models import User , Base
+from infrastructure.sqlalchemy_orm_postgres.repositories.user_repository import UserRepository
+from infrastructure.sqlalchemy_orm_postgres.models import User , Base
 from domain.database.migrator import DatabaseMigrator
 from domain.database.connector import DatabaseConnector
-from infrastructure.postgres.migrator import PostgresMigrator
-from infrastructure.postgres.connector import PostgresConnector
+from infrastructure.sqlalchemy_orm_postgres.migrator import PostgresMigrator
+from infrastructure.sqlalchemy_orm_postgres.connector import PostgresConnector
 from domain.database.repositories.user_repository import UserRepositoryInterface
 from config import DATABASE_URL
 logging.basicConfig(
@@ -42,7 +42,7 @@ async def start_connection(logger:logging.Logger,database_url:str)->DatabaseConn
     connector = PostgresConnector(database_url)
     try:
         await connector.connect()
-        logger.info(f"Succesfully conect to {database_url}.")
+        logger.info(f"Successfully connect to {database_url}.")
         return connector
     except Exception as e:
         logger.error(f"Can not connect to {database_url} !")

@@ -1,6 +1,6 @@
 import logging
 from domain.database.migrator import DatabaseMigrator
-from infrastructure.postgres.models import Base
+from infrastructure.sqlalchemy_orm_postgres.models import Base
 from sqlalchemy import inspect
 
 class PostgresMigrator(DatabaseMigrator):

@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from infrastructure.postgres.models import User
+from infrastructure.sqlalchemy_orm_postgres.models import User
 
 
 class UserRepositoryInterface(ABC):
@@ -9,5 +9,5 @@ class UserRepositoryInterface(ABC):
         raise NotImplementedError
 
     @abstractmethod
-    async def add_user(self, user: User):
+    async def add_user(self, user: User)->int:
         raise NotImplementedError
