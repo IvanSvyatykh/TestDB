@@ -19,6 +19,7 @@ class UserRepository(UserRepositoryInterface):
             await  self.__session.commit()
         except IntegrityError as e:
             await  self.__session.rollback()
+            self.__logger.error(e)
             raise e
 
     async def get_users(self) -> list[User]:
