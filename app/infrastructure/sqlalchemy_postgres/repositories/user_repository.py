@@ -2,7 +2,7 @@ from domain.database.repositories.user_repository import UserRepositoryInterface
 from sqlalchemy.ext.asyncio import AsyncSession
 from logging import getLogger
 from sqlalchemy import text
-from infrastructure.sqlalchemy_orm_postgres.models import User
+from infrastructure.sqlalchemy_orm_postgres.models import UserTable
 
 
 class UserRepository(UserRepositoryInterface):
@@ -11,7 +11,7 @@ class UserRepository(UserRepositoryInterface):
         self.__session = session
         self.__logger = getLogger("User SQLAlchemy logger")
 
-    async def get_users(self) -> list[User]:
+    async def get_users(self) -> list[UserTable]:
         query = text("SELECT * FROM users")
         try:
             res = await self.__session.execute(query)
@@ -20,5 +20,5 @@ class UserRepository(UserRepositoryInterface):
             self.__logger.error(e)
             raise e
 
-    async def add_user(self, user: User) -> int:
+    async def add_user(self, user: UserTable) -> int:
         pass

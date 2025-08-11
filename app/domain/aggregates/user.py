@@ -4,7 +4,8 @@ from domain.value_object.money import Money
 class User:
 
     def __init__(self, name: str, money: Money, user_id: int | None = None) -> None:
-        self.__check_user_id(user_id)
+        if user_id is not None:
+            self.__check_user_id(user_id)
         self.__user_id = user_id
         self.__name = name
         self.__money = money

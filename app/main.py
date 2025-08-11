@@ -2,10 +2,11 @@ import asyncio
 import logging
 import sys
 import uuid
-from infrastructure.sqlalchemy_orm_postgres.models import User
+from infrastructure.sqlalchemy_orm_postgres.models import UserTable
 from domain.database.repositories.user_repository import UserRepositoryInterface
 from infrastructure.sqlalchemy_orm_postgres.repositories.user_repository import UserRepository
-from infrastructure.sqlalchemy_orm_postgres.models import User , Base
+from domain.aggregates.user import User
+from domain.value_object.money import Money
 from domain.database.migrator import DatabaseMigrator
 from domain.database.connector import DatabaseConnector
 from infrastructure.sqlalchemy_orm_postgres.migrator import PostgresMigrator
@@ -22,14 +23,14 @@ async def get_users(logger:logging.Logger,user_repository:UserRepositoryInterfac
     logger.info("Getting users from db...")
     try:
         users = await user_repository.get_users()
-        logger.info(f"Get users: {[ (user.id , user.name , user.money) for user in users]}")
+        logger.info(f"Get users: {[ (user.user_id , user.user_name , user.money.amount) for user in users]}")
     except Exception as e :
         logger.error(f"Can not get user due err!")
         logger.error(f"Get err {str(e)}")
         sys.exit()
 
 async def add_user(logger:logging.Logger,user_repository:UserRepositoryInterface)->None:
-    user = User(name=str(uuid.uuid4()) , money=1000.39)
+    user = User(name=str(uuid.uuid4()) , money=Money(1000.39))
     logger.info("Starting add user to db...")
     try:
         await user_repository.add_user(user)
@@ -60,7 +61,7 @@ async def main(database_url:str):
     
 
 
-    await migrator.create_table(User.__tablename__)
+    await migrator.create_table(UserTable.__tablename__)
     async with connector.get_session() as session:
         user_repo = UserRepository(session)
         await get_users(logger , user_repo)

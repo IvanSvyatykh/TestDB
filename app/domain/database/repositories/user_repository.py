@@ -1,6 +1,5 @@
 from abc import ABC, abstractmethod
-from infrastructure.sqlalchemy_orm_postgres.models import User
-
+from domain.aggregates.user import User
 
 class UserRepositoryInterface(ABC):
 

@@ -1,7 +1,9 @@
 from logging import getLogger
 from domain.database.repositories.user_repository import UserRepositoryInterface
 from sqlalchemy.ext.asyncio import AsyncSession
-from infrastructure.sqlalchemy_orm_postgres.models import User
+from infrastructure.sqlalchemy_orm_postgres.models import UserTable
+from domain.aggregates.user import User
+from domain.value_object.money import Money
 from sqlalchemy import insert, select
 from sqlalchemy.exc import IntegrityError
 
@@ -15,18 +17,26 @@ class UserRepository(UserRepositoryInterface):
     async def add_user(self, user: User):
 
         try:
-            await  self.__session.execute(insert(User).values(name=user.name, money=user.money))
-            await  self.__session.commit()
+            await self.__session.execute(
+                insert(UserTable).values(name=user.user_name, money=user.money.amount)
+            )
+            await self.__session.commit()
         except IntegrityError as e:
-            await  self.__session.rollback()
+            await self.__session.rollback()
             self.__logger.error(e)
             raise e
 
     async def get_users(self) -> list[User]:
         try:
-            res = await  self.__session.execute(select(User))
-            users = res.scalars().all()
-            return list(users)
+            res = await self.__session.execute(select(UserTable))
+            users = list(res.scalars().all())
+            return (
+                []
+                if len(users) == 0
+                else [
+                    User(name=u.name, user_id=u.id, money=Money(u.money)) for u in users
+                ]
+            )
         except Exception as e:
             self.__logger.error(e)
             raise e
