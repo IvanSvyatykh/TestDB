@@ -4,7 +4,8 @@ import sys
 import uuid
 from infrastructure.sqlalchemy_orm_postgres.models import UserTable
 from domain.database.repositories.user_repository import UserRepositoryInterface
-from infrastructure.sqlalchemy_orm_postgres.repositories.user_repository import UserRepository
+from infrastructure.sqlalchemy_orm_postgres.repositories.user_repository import UserRepository as UserRepoasitoryORM
+from infrastructure.sqlalchemy_postgres.repositories.user_repository import UserRepository 
 from domain.aggregates.user import User
 from domain.value_object.money import Money
 from domain.database.migrator import DatabaseMigrator
@@ -63,6 +64,7 @@ async def main(database_url:str):
 
     await migrator.create_table(UserTable.__tablename__)
     async with connector.get_session() as session:
+        #user_repo = UserRepoasitoryORM(session)
         user_repo = UserRepository(session)
         await get_users(logger , user_repo)
         await add_user(logger , user_repo)
