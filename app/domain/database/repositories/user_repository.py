@@ -1,6 +1,7 @@
 from abc import ABC, abstractmethod
 from domain.aggregates.user import User
 
+
 class UserRepositoryInterface(ABC):
 
     @abstractmethod
@@ -8,5 +9,5 @@ class UserRepositoryInterface(ABC):
         raise NotImplementedError
 
     @abstractmethod
-    async def add_user(self, user: User)->int:
+    async def add_user(self, user: User) -> int:
         raise NotImplementedError

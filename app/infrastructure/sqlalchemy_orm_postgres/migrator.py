@@ -3,6 +3,7 @@ from domain.database.migrator import DatabaseMigrator
 from infrastructure.sqlalchemy_orm_postgres.models import Base
 from sqlalchemy import inspect
 
+
 class PostgresMigrator(DatabaseMigrator):
     def __init__(self, engine):
         self.__logger = logging.getLogger("Postgres migrator logger")
@@ -19,11 +20,9 @@ class PostgresMigrator(DatabaseMigrator):
             async with self.__engine.begin() as conn:
                 await conn.run_sync(
                     lambda sync_conn: Base.metadata.create_all(
-                        bind=sync_conn, 
-                        tables=[Base.metadata.tables[table_name]]
+                        bind=sync_conn, tables=[Base.metadata.tables[table_name]]
                     )
                 )
             self.__logger.info(f"Table {table_name} created")
         else:
             self.__logger.warning(f"Table {table_name} already exists")
-            

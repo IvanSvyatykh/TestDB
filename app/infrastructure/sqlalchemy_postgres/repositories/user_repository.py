@@ -1,3 +1,4 @@
+import time
 from domain.database.repositories.user_repository import UserRepositoryInterface
 from sqlalchemy.ext.asyncio import AsyncSession
 from logging import getLogger
@@ -16,8 +17,13 @@ class UserRepository(UserRepositoryInterface):
     async def get_users(self) -> list[User]:
         query = text("SELECT * FROM users")
         try:
+            start = time.time()
             res = await self.__session.execute(query)
             rows = res.fetchall()
+            end = time.time()
+            self.__logger.debug(
+                f"SQLAlchemy query with raw SQL took {end - start} seconds."
+            )
             return (
                 []
                 if len(rows) == 0
@@ -35,7 +41,7 @@ class UserRepository(UserRepositoryInterface):
         try:
             query = text(
                 f"INSERT INTO users (name, money) VALUES (:name,:money);"
-            ).bindparams(name=user.user_name , money=user.money.amount)
+            ).bindparams(name=user.user_name, money=user.money.amount)
             await self.__session.execute(query)
             await self.__session.commit()
         except IntegrityError as e:

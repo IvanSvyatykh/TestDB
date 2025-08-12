@@ -1,6 +1,8 @@
 from abc import ABC, abstractmethod
 from sqlalchemy.ext.asyncio import AsyncSession
 from typing import Any, AsyncGenerator
+
+
 class DatabaseConnector(ABC):
 
     @abstractmethod
@@ -12,10 +14,10 @@ class DatabaseConnector(ABC):
         raise NotImplementedError
 
     @abstractmethod
-    async def get_session(self)-> AsyncGenerator[AsyncSession, None]:
+    async def get_session(self) -> AsyncGenerator[AsyncSession, None]:
         raise NotImplementedError
-    
+
     @property
     @abstractmethod
-    def get_engine(self)->Any:
+    def get_engine(self) -> Any:
         raise NotImplementedError

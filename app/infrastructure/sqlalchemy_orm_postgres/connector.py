@@ -14,9 +14,12 @@ class PostgresConnector(DatabaseConnector):
         self.__database_url = database_url
 
     async def connect(self):
-        self.__engine = create_async_engine(self.__database_url, pool_size=10,
-                                            max_overflow=20, )
-        self.__async_session_generator = async_sessionmaker(self.__engine, expire_on_commit=False)
+        self.__engine = create_async_engine(
+            self.__database_url, pool_size=10, max_overflow=20
+        )
+        self.__async_session_generator = async_sessionmaker(
+            self.__engine, expire_on_commit=False
+        )
 
     @asynccontextmanager
     async def get_session(self) -> AsyncGenerator[AsyncSession, None]:
@@ -27,7 +30,7 @@ class PostgresConnector(DatabaseConnector):
                 await session.close()
 
     @property
-    def get_engine(self)->Any:
+    def get_engine(self) -> Any:
         return self.__engine
 
     async def disconnect(self):
