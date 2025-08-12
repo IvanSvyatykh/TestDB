@@ -2,7 +2,8 @@ import asyncio
 import logging
 import sys
 import uuid
-import colorlog
+import setup_logger
+
 from infrastructure.sqlalchemy_orm_postgres.models import UserTable
 from domain.database.repositories.user_repository import UserRepositoryInterface
 from infrastructure.sqlalchemy_orm_postgres.repositories.user_repository import (
@@ -19,28 +20,6 @@ from infrastructure.sqlalchemy_orm_postgres.migrator import PostgresMigrator
 from infrastructure.sqlalchemy_orm_postgres.connector import PostgresConnector
 from domain.database.repositories.user_repository import UserRepositoryInterface
 from config import DATABASE_URL
-
-
-handler = colorlog.StreamHandler()
-handler.setFormatter(
-    colorlog.ColoredFormatter(
-        "%(log_color)s%(asctime)s - %(name)s - %(levelname)s - %(message)s",
-        datefmt="%Y-%m-%d %H:%M:%S",
-        log_colors={
-            "DEBUG": "cyan",
-            "INFO": "green",
-            "WARNING": "yellow",
-            "ERROR": "red",
-            "CRITICAL": "red,bg_white",
-        },
-    )
-)
-
-logging.basicConfig(
-    level=logging.DEBUG,
-    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
-    handlers=[handler],
-)
 
 
 async def get_users(
@@ -86,6 +65,7 @@ async def start_connection(
 
 
 async def main(database_url: str):
+
     logger = logging.getLogger("Test task logger")
     logger.info("Script started !")
 
