@@ -1,11 +1,13 @@
 import time
-from domain.database.repositories.user_repository import UserRepositoryInterface
-from sqlalchemy.ext.asyncio import AsyncSession
 from logging import getLogger
-from sqlalchemy import text
+
 from domain.aggregates.user import User
+from domain.database.repositories.user_repository import \
+    UserRepositoryInterface
 from domain.value_object.money import Money
+from sqlalchemy import text
 from sqlalchemy.exc import IntegrityError
+from sqlalchemy.ext.asyncio import AsyncSession
 
 
 class UserRepository(UserRepositoryInterface):

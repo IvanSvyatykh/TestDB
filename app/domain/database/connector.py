@@ -1,6 +1,7 @@
 from abc import ABC, abstractmethod
-from sqlalchemy.ext.asyncio import AsyncSession
 from typing import Any, AsyncGenerator
+
+from sqlalchemy.ext.asyncio import AsyncSession
 
 
 class DatabaseConnector(ABC):

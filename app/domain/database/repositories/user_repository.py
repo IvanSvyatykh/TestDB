@@ -1,4 +1,5 @@
 from abc import ABC, abstractmethod
+
 from domain.aggregates.user import User
 
 

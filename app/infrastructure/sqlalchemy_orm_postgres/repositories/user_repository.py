@@ -1,13 +1,15 @@
 import time
 from logging import getLogger
-from domain.database.repositories.user_repository import UserRepositoryInterface
-from sqlalchemy.ext.asyncio import AsyncSession
-from infrastructure.sqlalchemy_orm_postgres.models import UserTable
+
 from domain.aggregates.user import User
+from domain.database.repositories.user_repository import \
+    UserRepositoryInterface
 from domain.value_object.money import Money
+from infrastructure.sqlalchemy_orm_postgres.models import UserTable
 from sqlalchemy import insert, select
-from sqlalchemy.exc import IntegrityError
 from sqlalchemy.dialects import postgresql
+from sqlalchemy.exc import IntegrityError
+from sqlalchemy.ext.asyncio import AsyncSession
 
 
 class UserRepository(UserRepositoryInterface):

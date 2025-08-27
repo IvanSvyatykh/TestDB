@@ -1,8 +1,9 @@
 import logging
-from typing import Dict, Any
-from sqlalchemy.ext.asyncio import AsyncEngine
 from dataclasses import dataclass
+from typing import Any, Dict
+
 from domain.database.migrator import DatabaseMigrator
+from sqlalchemy.ext.asyncio import AsyncEngine
 
 
 @dataclass

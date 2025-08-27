@@ -1,6 +1,6 @@
 import uuid
 
-from sqlalchemy import Column, String, Integer, Numeric
+from sqlalchemy import Column, Integer, Numeric, String
 from sqlalchemy.orm import declarative_base
 
 Base = declarative_base()

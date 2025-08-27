@@ -2,24 +2,22 @@ import asyncio
 import logging
 import sys
 import uuid
-import setup_logger
 
-from infrastructure.sqlalchemy_orm_postgres.models import UserTable
-from domain.database.repositories.user_repository import UserRepositoryInterface
-from infrastructure.sqlalchemy_orm_postgres.repositories.user_repository import (
-    UserRepository as UserRepoasitoryORM,
-)
-from infrastructure.sqlalchemy_postgres.repositories.user_repository import (
-    UserRepository,
-)
-from domain.aggregates.user import User
-from domain.value_object.money import Money
-from domain.database.migrator import DatabaseMigrator
-from domain.database.connector import DatabaseConnector
-from infrastructure.sqlalchemy_orm_postgres.migrator import PostgresMigrator
-from infrastructure.sqlalchemy_orm_postgres.connector import PostgresConnector
-from domain.database.repositories.user_repository import UserRepositoryInterface
+import setup_logger
 from config import DATABASE_URL
+from domain.aggregates.user import User
+from domain.database.connector import DatabaseConnector
+from domain.database.migrator import DatabaseMigrator
+from domain.database.repositories.user_repository import \
+    UserRepositoryInterface
+from domain.value_object.money import Money
+from infrastructure.sqlalchemy_orm_postgres.connector import PostgresConnector
+from infrastructure.sqlalchemy_orm_postgres.migrator import PostgresMigrator
+from infrastructure.sqlalchemy_orm_postgres.models import UserTable
+from infrastructure.sqlalchemy_orm_postgres.repositories.user_repository import \
+    UserRepository as UserRepoasitoryORM
+from infrastructure.sqlalchemy_postgres.repositories.user_repository import \
+    UserRepository
 
 
 async def get_users(
